@@ -1,0 +1,25 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.7.0 CPython/2.7.9 Darwin/14.4.0]
+    method: GET
+    uri: https://sp.litres.ru/static/bookimages/13/29/90/13299029.bin.dir/13299029.cover.jpg
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      accept-ranges: [bytes]
+      cache-control: [max-age=2592000]
+      connection: [keep-alive]
+      content-length: ['51405']
+      content-type: [image/jpeg]
+      date: ['Sat, 01 Aug 2015 11:32:27 GMT']
+      etag: ['"55ac16df-c8cd"']
+      expires: ['Sun, 23 Aug 2015 11:12:54 GMT']
+      last-modified: ['Sun, 19 Jul 2015 21:30:07 GMT']
+      server: [nginx/1.7.9]
+    status: {code: 200, message: OK}
+version: 1

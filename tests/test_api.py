@@ -28,6 +28,8 @@ def test_get_freshbook(litres):
 
     book1 = book_data[0]
     assert book1['@id'] == '10315207'
+    assert book1['@file_id'] == '13373969'
+    assert book1['@cover'] == 'jpg'
     assert book1['@external_id'] == '37828892-1a76-11e5-ad6a-002590591dd6'
     assert book1['title-info']['book-title'] == u'Бросок на выстрел'
 
@@ -67,3 +69,19 @@ def test_get_the_book(litres):
     assert response.status_code == 200
     assert response.headers['Content-Disposition'] == 'attachment; filename="Suhov_E._Rassledovaniya._Brosok_Na_Vyistrel.fb2.zip"'  # noqa
     assert response.headers['Content-Length'] == '452166'
+
+
+@my_vcr.use_cassette('tests/cassettes/cover.yaml')
+def test_get_cover(litres):
+    response = litres.get_cover(file_id='13299029', file_ext='jpg')
+
+    assert response.status_code == 200
+    assert response.headers['Content-Type'] == 'image/jpeg'
+
+
+@my_vcr.use_cassette('tests/cassettes/cover.yaml')
+def test_get_cover_from_book(litres):
+    response = litres.get_cover(book={'@file_id': '13299029', '@cover': 'jpg'})
+
+    assert response.status_code == 200
+    assert response.headers['Content-Type'] == 'image/jpeg'

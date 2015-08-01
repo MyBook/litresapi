@@ -156,6 +156,18 @@ class LitresApi(object):
                 f.flush()
         return filename
 
+    def get_cover(self, file_id=None, file_ext='jpg', book=None, **kwargs):
+        if book:
+            file_id = book['@file_id']
+            file_ext = book['@cover']
+        file_id = str(file_id).rjust(8, '0')
+        cover_dir = '%s/%s/%s/%s.bin.dir/%s.cover.%s' % (
+            file_id[0:2], file_id[2:4], file_id[4:6], file_id, file_id, file_ext)
+        response = self._request('static/bookimages/%s' % cover_dir, **kwargs)
+        self.check_response(response)
+
+        return response
+
     def check_response(self, response):
         content_type = response.headers.get('content-type', '').lower().strip()
         if not content_type:
