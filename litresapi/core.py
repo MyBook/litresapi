@@ -24,7 +24,7 @@ class LitresApi(object):
        Docs: http://www.litres.ru/static/get_fresh_book.zip
     """
 
-    def __init__(self, partner_id, secret_key, xml=False):
+    def __init__(self, partner_id=None, secret_key=None, xml=False):
         # Строковой ID партнера. Обычно представлен четырьмя символами.
         # Используется при запросе обновлений (см. 1.1).
         # Также используется при скачивании файла партнером типа «магазин на стороне партнера» (см. 2.1).
@@ -167,6 +167,13 @@ class LitresApi(object):
         self.check_response(response)
 
         return response
+
+    def get_genres(self, **kwargs):
+        response = self._request('genres_list2/', **kwargs)
+        if self.response_as_dict:
+            return xmltodict.parse(response.content)['genres']['genre']
+        else:
+            return lxml.etree.fromstring(response.content)
 
     def check_response(self, response):
         content_type = response.headers.get('content-type', '').lower().strip()

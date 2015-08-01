@@ -6,6 +6,12 @@ python-обёртка вокруг API ЛитРес на базе requests и xm
 .. image:: https://img.shields.io/badge/python-2.7,%203.4-blue.svg
     :alt: python 2.7, python 3.4
 
+.. image:: https://img.shields.io/badge/docs-1.83-orange.svg
+    :alt: Docs version
+    :target: http://www.litres.ru/static/get_fresh_book.zip
+
+`Официальная документация XML API <http://www.litres.ru/static/get_fresh_book.zip>`__
+
 Примеры
 ~~~~~~~
 
@@ -90,3 +96,46 @@ python-обёртка вокруг API ЛитРес на базе requests и xm
     book = next(api.get_fresh_book(start_date=datetime.datetime(2015, 7, 19, 12, 5)))
     >>> api.get_cover(book=book).headers['Content-Type']
     'image/jpeg'
+
+Жанры
+-----
+
+.. code:: python
+
+    genres = api.get_genres()
+    >>> print(json.dumps(genres, indent=4, ensure_ascii=False))
+    [
+        {
+            "@id": "5003",
+            "@title": "Бизнес-книги",
+            "@type": "root",
+            "genre": [
+                {
+                    "@id": "5049",
+                    "@title": "Банковское дело",
+                    "@token": "bankovskoe_delo",
+                    "@type": "genre"
+                },
+                {
+                    "@id": "5047",
+                    "@title": "Кадровый менеджмент",
+                    "@token": "kadrovyj_menedzhment",
+                    "@type": "container",
+                    "genre": [
+                        {
+                            "@id": "5334",
+                            "@title": "Аттестация персонала",
+                            "@token": "attestaciya_personala",
+                            "@type": "genre"
+                        },
+        ...
+    ]
+
+Для получения xml:
+
+.. code:: python
+
+    api = LitresApi(xml=True)
+    genres = api.get_genres()
+    >>> genres.xpath("//genre[@token='sport_fitnes']")[0].attrib['title']
+    'Спорт, фитнес'
