@@ -1,0 +1,2 @@
+[run]
+omit = litresapi/xmltodict.py
