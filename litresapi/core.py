@@ -63,7 +63,7 @@ class LitresApi(object):
             'timestamp': timestamp
         }
 
-    def get_fresh_book(self, start_date=None, end_date=None, uuid=None, book_type='EBOOK', moreplaces=None):
+    def get_fresh_book(self, start_date=None, end_date=None, uuid=None, book_type='EBOOK', moreplaces=None, **kwargs):
         BOOK_TYPES = {
             'EBOOK': '0',
             'AUDIO': '1',
@@ -84,6 +84,7 @@ class LitresApi(object):
         }
         params = {k: v for k, v in params.items() if v is not None}
         params.update(self._get_freshbook_sha(params['checkpoint']))
+        params.update(kwargs)
         response = self._request('get_fresh_book/', params=params)
 
         if not self.response_as_dict:
