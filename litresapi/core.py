@@ -85,10 +85,12 @@ class LitresApi(object):
         params = {k: v for k, v in params.items() if v is not None}
         params.update(self._get_freshbook_sha(params['checkpoint']))
         response = self._request('get_fresh_book/', params=params, **kwargs)
+        return self.parse_fresh_book(response.content)
 
+    def parse_fresh_book(self, content):
         if not self.response_as_dict:
             xml_iterator = lxml.etree.iterparse(
-                io.BytesIO(response.content),
+                io.BytesIO(content),
                 events=('end',),
                 huge_tree=True,
                 tag=['updated-book', 'fb-updates', 'removed-book'],
@@ -100,7 +102,7 @@ class LitresApi(object):
                     while element.getprevious() is not None:
                         del element.getparent()[0]
         else:
-            for path, item in xmltodict.parse(response.content, generator=True, item_depth=2):
+            for path, item in xmltodict.parse(content, generator=True, item_depth=2):
                 tag_name, book_meta = path[-1]
                 if tag_name == 'removed-book':
                     book = book_meta
