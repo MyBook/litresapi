@@ -23,6 +23,9 @@ class LitresApi(object):
 
        Docs: http://www.litres.ru/static/get_fresh_book.zip
     """
+    force_list = (
+        'author',
+    )
 
     def __init__(self, partner_id=None, secret_key=None, xml=False):
         # Строковой ID партнера. Обычно представлен четырьмя символами.
@@ -102,7 +105,8 @@ class LitresApi(object):
                     while element.getprevious() is not None:
                         del element.getparent()[0]
         else:
-            for path, item in xmltodict.parse(content, generator=True, item_depth=2):
+            for path, item in xmltodict.parse(content, generator=True, item_depth=2,
+                                              force_list=self.force_list):
                 tag_name, book_meta = path[-1]
                 if tag_name == 'removed-book':
                     book = book_meta
