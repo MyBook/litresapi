@@ -169,7 +169,7 @@ class LitresApi(object):
         return response
 
     def get_genres(self, **kwargs):
-        response = self._request('genres_list2/', **kwargs)
+        response = self._request('genres_list_2/', **kwargs)
         if self.response_as_dict:
             return xmltodict.parse(response.content)['genres']['genre']
         else:

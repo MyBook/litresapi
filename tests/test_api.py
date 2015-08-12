@@ -101,12 +101,12 @@ def test_get_genres(litres):
     genre = genres_list[0]
 
     assert genre['@id'] == '5003'
-    assert genre['@title'] == 'Бизнес-книги'
+    assert genre['@title'] == u'Бизнес-книги'
     assert genre['@type'] == 'root'
-    assert len(genre['genre']) == 7
+    assert len(genre['genre']) == 25
 
 
 @vcr.use_cassette('tests/cassettes/genres.yaml')
-def test_get_genres(litres_xml):
+def test_get_genres_xml(litres_xml):
     xml_doc = litres_xml.get_genres()
     assert xml_doc.xpath("//genre[@token='kompyuternaya_literatura_zarubezhnaya']")[0].attrib['id'] == '5221'
