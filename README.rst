@@ -58,6 +58,18 @@ python-обёртка вокруг API ЛитРес на базе requests и xm
     >>> book.getchildren()
     [<Element files at 0x10a77cd88>, <Element title-info at 0x10a77c488>, ...]
 
+Можно предавать аргументы для трансформации ответа на базе requests hooks:
+
+.. code:: python
+
+    def save_xml_to_file(response, *args, **kwargs):
+        with open('litres_response.xml', 'wb') as fl:
+            fl.write(response.content)
+
+    >> api.get_fresh_book(start_date=datetime.datetime(2015, 7, 19, 12, 5),
+                          hooks={'response': save_xml_to_file})
+
+
 Ограничения
 +++++++++++
 

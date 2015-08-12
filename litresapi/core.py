@@ -84,8 +84,7 @@ class LitresApi(object):
         }
         params = {k: v for k, v in params.items() if v is not None}
         params.update(self._get_freshbook_sha(params['checkpoint']))
-        params.update(kwargs)
-        response = self._request('get_fresh_book/', params=params)
+        response = self._request('get_fresh_book/', params=params, **kwargs)
 
         if not self.response_as_dict:
             xml_iterator = lxml.etree.iterparse(
