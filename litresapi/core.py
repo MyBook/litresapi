@@ -25,7 +25,8 @@ class LitresApi(object):
     """
     force_list = (
         'author',
-        'genre'
+        'genre',
+        'sequence'
     )
 
     def __init__(self, partner_id=None, secret_key=None, xml=False):
