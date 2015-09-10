@@ -55,7 +55,7 @@ class LitresApi(object):
         try:
             response = self.session.request(method, url, **kwargs)
             response.raise_for_status()
-        except requests.HTTPError:
+        except (requests.HTTPError, requests.exceptions.RetryError):
             raise LitresAPIException('failed to open', response=response)
         else:
             return response
