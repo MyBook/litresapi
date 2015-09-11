@@ -57,6 +57,8 @@ class LitresApi(object):
             response.raise_for_status()
         except (requests.HTTPError, requests.exceptions.RetryError):
             raise LitresAPIException('failed to open', response=response)
+        except requests.exceptions.ConnectionError:
+            raise LitresAPIException('connection error', response=response)
         else:
             return response
 
