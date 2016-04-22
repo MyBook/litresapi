@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-"Makes working with XML feel like you are working with JSON"
+"""
+Copyright (C) 2012 Martin Blech and individual contributors.
+https://github.com/martinblech/xmltodict/blob/master/xmltodict.py
+"""
 
 import sys
 from xml.parsers import expat
