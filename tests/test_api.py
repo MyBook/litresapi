@@ -92,6 +92,12 @@ def test_get_cover_from_book(litres):
     assert response.headers['Content-Type'] == 'image/jpeg'
 
 
+def test_not_cover_for_book(litres):
+    response = litres.get_cover(book={'@file_id': '13299029', '@cover': ''})
+
+    assert response is None
+
+
 @vcr.use_cassette('tests/cassettes/genres.yaml')
 def test_get_genres(litres):
     genres_list = litres.get_genres()

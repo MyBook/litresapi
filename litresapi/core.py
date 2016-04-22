@@ -173,6 +173,8 @@ class LitresApi(object):
         if book:
             file_id = book['@file_id']
             file_ext = book['@cover']
+            if not file_ext:
+                return None
         file_id = str(file_id).rjust(8, '0')
         cover_dir = '%s/%s/%s/%s.bin.dir/%s.cover.%s' % (
             file_id[0:2], file_id[2:4], file_id[4:6], file_id, file_id, file_ext)

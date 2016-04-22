@@ -109,6 +109,14 @@ python-обёртка вокруг API ЛитРес на базе requests и xm
     >>> api.get_cover(book=book).headers['Content-Type']
     'image/jpeg'
 
+Если обложки у книги нет, функция вернёт ``None``
+
+.. code:: python
+
+    book = next(api.get_fresh_book(uuid='ead79f60-4471-4952-aa81-5f126fb6da82'))
+    >>> api.get_cover(book=book)
+    None
+
 Жанры
 -----
 
