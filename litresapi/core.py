@@ -95,9 +95,9 @@ class LitresApi(object):
         return self.parse_fresh_book(response.content)
 
     def parse_fresh_book(self, content):
-        content = (content.decode('utf8')
-                   .replace('<annotation>', '<annotation><![CDATA[')
-                   .replace('</annotation>', ']]></annotation>'))
+        content = (content
+                   .replace(b'<annotation>', b'<annotation><![CDATA[')
+                   .replace(b'</annotation>', b']]></annotation>'))
         if not self.response_as_dict:
             xml_iterator = lxml.etree.iterparse(
                 io.BytesIO(content),
