@@ -1,19 +1,24 @@
 cache:
   directories:
-    - $HOME/.cache/pip
+  - "$HOME/.cache/pip"
 language: python
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"  
+  - '2.7'
+  - '3.4'
+  - '3.5'
 install: pip install tox-travis
 script: tox
-
 before_install:
   - pip install codecov
-
 after_success:
   - codecov
-
 notifications:
   email: false
+deploy:
+  provider: pypi
+  user: mybook
+  distributions: "sdist bdist_wheel"
+  password:
+    secure: H4dFMpaCKI9ITxllaElvVPp3gVKyYCJ8nofhs/8v1oze55s/jmLPj/1WU/g01bNaU/f3Klpl3BBQRQ0As1/a81Q3qQB4/zFAnXNP84OSKTNlBO5C9kvcaIeIwZQ7ZC/tj//3qaaM6mz+cZnWAiYqyN2P405keG3oFPaIQJ3Hf/Gea7616x1BOmGMPPA0DUExjjA737dVQm5FdQw/UyESF2zI6SIf446MzjRCZrqUBeosCyXESmi3okFw9NAPVIR2Xjj5jCMh3yqhjl/CBk78JaW0MKfO0+p9FhmtZdr+u+86mVIO1nB60e/yLwkr2oBdf8mWR1wkSSjxoseQOeCkqJlhlCnowSVNeNmZMLgsIHKvWark7Q6I133nufOP2tw/YCPdylufuwylvN9pasZnRjOtKeWeF3TaFfqrJMtPbAG/ha+23Yk3nCccAuYrAerTqUlBjAKZvKtq+2Sw/OTy90UT6BB8U2kW9ld64/H4/8IomIesAqa3BevzLjjvxeHhiuHkzByu4PH3jr3+rfRx41LD+Vrm88KaSsAYmM0VLqWxfXobV8mOVjUmJVt9GckeMALHRXu3sTPb5aVhQqxsT0mnBOvVv8sStMp9UwIt3RKJTGEpUo0BSEYjTT3AoBpWllfGMsuOdyGCngBXZREiGPiNu4NclkW8Cpi/qrS4tjg=
+  on:
+    tags: true

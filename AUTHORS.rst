@@ -2,7 +2,10 @@
 Credits
 =======
 
-* Ilya Baryshev <baryshev@gmail.com>
+* Ilya Baryshev
+* Sergei Khoroshilov
+* Andrey Ptitsyn
+* Fedor Nasyrov
 
 xmltodict
 ~~~~~~~~~
