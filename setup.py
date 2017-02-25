@@ -53,6 +53,7 @@ requirements = [
 
 test_requirements = [
     'pytest>=2.7.2',
+    'pytest-cov>=2.4.0',
     'freezegun>=0.3.4',
     'vcrpy>=1.6.1'
 ]
