@@ -4,8 +4,11 @@ Litres API
 python-обёртка вокруг API ЛитРес на базе requests и xmltodict
 
 .. image:: https://img.shields.io/badge/python-2.7,%203.4,%203.5-blue.svg
+    :target: https://pypi.python.org/pypi/litresapi/
 .. image:: https://travis-ci.org/MyBook/litresapi.svg?branch=master
     :target: https://travis-ci.org/MyBook/litresapi
+.. image:: https://codecov.io/gh/MyBook/litresapi/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/MyBook/litresapi
 .. image:: https://img.shields.io/badge/docs-1.83-orange.svg
     :alt: Docs version
     :target: http://www.litres.ru/static/get_fresh_book.zip
