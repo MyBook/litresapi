@@ -96,6 +96,8 @@ class LitresApi(object):
 
     def parse_fresh_book(self, content):
         content = (content
+                   .replace(b'<![CDATA[', b'')
+                   .replace(b']]>', b'')
                    .replace(b'<annotation>', b'<annotation><![CDATA[')
                    .replace(b'</annotation>', b']]></annotation>'))
         if not self.response_as_dict:
