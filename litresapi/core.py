@@ -188,7 +188,7 @@ class LitresApi(object):
     def get_genres(self, **kwargs):
         response = self._request('genres_list_2/', **kwargs)
         if self.response_as_dict:
-            return xmltodict.parse(response.content)['genres']['genre']
+            return xmltodict.parse(response.content, force_list=('genre',))['genres']['genre']
         else:
             return lxml.etree.fromstring(response.content)
 
