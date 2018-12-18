@@ -172,15 +172,14 @@ class LitresApi(object):
                 f.flush()
         return filename
 
-    def get_cover(self, file_id=None, file_ext='jpg', book=None, **kwargs):
+    def get_cover(self, book_id=None, file_ext='jpg', book=None, **kwargs):
         if book:
-            file_id = book['@file_id']
+            book_id = book['@id']
             file_ext = book['@cover']
             if not file_ext:
                 return None
-        file_id = str(file_id).rjust(8, '0')
         # we are taking max size cover
-        cover_dir = '/pub/c/cover_max1500/{}.jpg'.format(file_id)
+        cover_dir = '/pub/c/cover_max1500/{}.jpg'.format(book_id)
         response = self._request(cover_dir, domain_prefix='partnersdnld', **kwargs)
         self.check_response(response)
 
