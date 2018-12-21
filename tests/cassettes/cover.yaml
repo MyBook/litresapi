@@ -9,7 +9,7 @@ interactions:
     method: GET
     uri: https://sp.litres.ru/static/bookimages/13/29/90/13299029.bin.dir/13299029.cover.jpg
   response:
-    body: {string: !!python/unicode ''}
+    body: {string: ''}
     headers:
       accept-ranges: [bytes]
       cache-control: [max-age=2592000]
@@ -21,5 +21,46 @@ interactions:
       expires: ['Sun, 23 Aug 2015 11:12:54 GMT']
       last-modified: ['Sun, 19 Jul 2015 21:30:07 GMT']
       server: [nginx/1.7.9]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.7.0 CPython/3.4.3 Darwin/17.7.0]
+    method: GET
+    uri: https://MBA.litres.ru/pub/c/cover_max1500/13299029.jpg
+  response:
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['474']
+      Content-Type: [text/html; charset=utf-8]
+      Date: ['Tue, 18 Dec 2018 09:42:45 GMT']
+      ETag: ['"56e0126d-1da"']
+      Server: [nginx/1.14.0]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.7.0 CPython/3.4.3 Darwin/17.7.0]
+    method: GET
+    uri: https://partnersdnld.litres.ru/pub/c/cover_max1500/32544407.jpg
+  response:
+    body: {string: ''}
+    headers:
+      Accept-Ranges: [bytes]
+      Cache-Control: ['public, max-age=259200']
+      Connection: [keep-alive]
+      Content-Length: ['117709']
+      Content-Type: [image/jpeg]
+      Date: ['Tue, 18 Dec 2018 09:54:27 GMT']
+      ETag: ['"5adf34d9-1cbcd"']
+      Last-Modified: ['Tue, 24 Apr 2018 13:44:57 GMT']
+      Server: [nginx/1.14.0]
     status: {code: 200, message: OK}
 version: 1

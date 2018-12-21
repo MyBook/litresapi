@@ -41,7 +41,7 @@ class LitresApi(object):
         # Выдается партнеру тех. службой «ЛитРес» при заключении договора.
         self.secret_key = secret_key
 
-        self.base_url = 'https://sp.litres.ru/'
+        self.base_url = 'https://{domain_prefix}.litres.ru/'
 
         # Retry request on network errors and 500 response
         self.session = requests.session()
@@ -50,7 +50,8 @@ class LitresApi(object):
         self.response_as_dict = not xml
 
     def _request(self, resource, method='GET', **kwargs):
-        url = urljoin(self.base_url, resource)
+        domain_prefix = kwargs.pop('domain_prefix', 'sp')
+        url = urljoin(self.base_url.format(domain_prefix=domain_prefix), resource)
         response = None
         try:
             response = self.session.request(method, url, **kwargs)
@@ -171,16 +172,15 @@ class LitresApi(object):
                 f.flush()
         return filename
 
-    def get_cover(self, file_id=None, file_ext='jpg', book=None, **kwargs):
+    def get_cover(self, book_id=None, file_ext='jpg', book=None, **kwargs):
         if book:
-            file_id = book['@file_id']
+            book_id = book['@id']
             file_ext = book['@cover']
             if not file_ext:
                 return None
-        file_id = str(file_id).rjust(8, '0')
-        cover_dir = '%s/%s/%s/%s.bin.dir/%s.cover.%s' % (
-            file_id[0:2], file_id[2:4], file_id[4:6], file_id, file_id, file_ext)
-        response = self._request('static/bookimages/%s' % cover_dir, **kwargs)
+        # we are taking max size cover
+        cover_dir = '/pub/c/cover_max1500/{}.jpg'.format(book_id)
+        response = self._request(cover_dir, domain_prefix='partnersdnld', **kwargs)
         self.check_response(response)
 
         return response

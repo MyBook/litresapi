@@ -78,7 +78,7 @@ def test_get_the_book(litres):
 
 @my_vcr.use_cassette('tests/cassettes/cover.yaml')
 def test_get_cover(litres):
-    response = litres.get_cover(file_id='13299029', file_ext='jpg')
+    response = litres.get_cover(book_id='32544407', file_ext='jpg')
 
     assert response.status_code == 200
     assert response.headers['Content-Type'] == 'image/jpeg'
@@ -86,14 +86,14 @@ def test_get_cover(litres):
 
 @my_vcr.use_cassette('tests/cassettes/cover.yaml')
 def test_get_cover_from_book(litres):
-    response = litres.get_cover(book={'@file_id': '13299029', '@cover': 'jpg'})
+    response = litres.get_cover(book={'@id': '32544407', '@cover': 'jpg'})
 
     assert response.status_code == 200
     assert response.headers['Content-Type'] == 'image/jpeg'
 
 
 def test_not_cover_for_book(litres):
-    response = litres.get_cover(book={'@file_id': '13299029', '@cover': ''})
+    response = litres.get_cover(book={'@id': '32544407', '@cover': ''})
 
     assert response is None
 
