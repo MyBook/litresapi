@@ -174,9 +174,9 @@ class LitresApi(object):
 
     def get_cover(self, book_id=None, file_ext='jpg', book=None, **kwargs):
         if book:
-            book_id = book['@id']
-            file_ext = book['@cover']
-            if not file_ext:
+            book_id = book.get('@id', book_id)
+            file_ext = book.get('@cover')
+            if not (file_ext or book_id):
                 return None
         # we are taking max size cover
         cover_dir = '/pub/c/cover_max1500/{}.jpg'.format(book_id)
