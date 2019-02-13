@@ -98,6 +98,12 @@ def test_not_cover_for_book(litres):
     assert response is None
 
 
+def test_not_id_for_book(litres):
+    response = litres.get_cover(book={'@cover': 'jpg'})
+
+    assert response is None
+
+
 @vcr.use_cassette('tests/cassettes/genres.yaml')
 def test_get_genres(litres):
     genres_list = litres.get_genres()
