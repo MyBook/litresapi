@@ -162,3 +162,34 @@ python-обёртка вокруг API ЛитРес на базе requests и xm
     genres = api.get_genres()
     >>> genres.xpath("//genre[@token='sport_fitnes']")[0].attrib['title']
     'Спорт, фитнес'
+
+Разработка
+~~~~~~~~~~
+
+Запустить тесты
+---------------
+
+::
+
+  tox -e py37
+
+
+Публикация релиза в PyPi
+------------------------
+
+Для публикации релиза понадобится `twine <https://pypi.org/project/twine/>`_.
+Для удобства его можно установить глобально::
+
+  pip install twine
+
+1. Поднимаем версию пакета::
+
+    __version__ = '1.0.2'
+
+2. Собираем пакет::
+
+    python setup.py sdist
+
+3. Загружаем собранный пакет в PyPi::
+
+    twine upload dist/litresapi-1.0.1.tar.gz
