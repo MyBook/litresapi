@@ -9,6 +9,7 @@
 dist
 build
 eggs
+.eggs
 parts
 bin
 var
@@ -23,9 +24,11 @@ pip-log.txt
 
 # Unit test / coverage reports
 .coverage
-.tox
+.tox/
+.cache/
+.pytest_cache/
 nosetests.xml
-htmlcov
+htmlcov/
 
 # Translations
 *.mo
