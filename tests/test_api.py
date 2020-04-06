@@ -1,13 +1,12 @@
-import os
 import datetime
 import logging
+import os
 
 import freezegun
 import pytest
 import vcr
 
 from litresapi import LitresApi
-
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -62,6 +61,7 @@ def test_get_freshbook_xml(litres_xml):
 def scrub_body(response):
     response['body']['string'] = ''.encode('utf-8')
     return response
+
 
 my_vcr = vcr.VCR(before_record_response=scrub_body)
 
