@@ -5,10 +5,11 @@ https://github.com/martinblech/xmltodict/blob/master/xmltodict.py
 """
 
 import sys
+from copy import deepcopy
 from xml.parsers import expat
 from xml.sax.saxutils import XMLGenerator
 from xml.sax.xmlreader import AttributesImpl
-from copy import deepcopy
+
 try:  # pragma no cover
     from cStringIO import StringIO
 except ImportError:  # pragma no cover
@@ -16,9 +17,9 @@ except ImportError:  # pragma no cover
         from StringIO import StringIO
     except ImportError:
         from io import StringIO
-try: # pragma no cover
+try:  # pragma no cover
     from io import BytesIO
-except ImportError: # pragma no cover
+except ImportError:  # pragma no cover
     BytesIO = StringIO
 try:  # pragma no cover
     from collections import OrderedDict as _OrderedDict
@@ -27,9 +28,9 @@ except ImportError:  # pragma no cover
         from ordereddict import OrderedDict as _OrderedDict
     except ImportError:
         _OrderedDict = dict
-try: # pragma no cover
+try:  # pragma no cover
     from pprint import pprint
-except ImportError: # pragma no cover
+except ImportError:  # pragma no cover
     def pprint(obj, *args, **kwargs):
         if len(args) > 0:
             stream = args[0]
@@ -41,10 +42,11 @@ except ImportError: # pragma no cover
             print("%r" % obj)
 
 QNameDecode = None
-try: # pragma no cover
+try:  # pragma no cover
     from lxml import etree
+
     QNameDecode = etree.QName
-except ImportError: # pragma no cover
+except ImportError:  # pragma no cover
     try:
         import xml.etree.cElementTree as etree
     except ImportError:
@@ -54,15 +56,18 @@ except ImportError: # pragma no cover
         except ImportError:
             try:
                 import cElementTree as etree
+
                 print("Warning: Not tested with cElementTree")
             except ImportError:
                 try:
                     import elementtree.ElementTree as etree
+
                     print("Warning: Not tested with elementtree.ElementTree")
                 except ImportError:
                     print("Unable to import etree: lxml functionality disabled")
 
-class QNameSeparator():
+
+class QNameSeparator:
     def __init__(self, text):
         endidx = text.rfind('}')
         if text[0] != '{' or endidx < 0:
@@ -70,9 +75,10 @@ class QNameSeparator():
             self.localname = text
         else:
             self.namespace = text[1:endidx]
-            self.localname = text[endidx+1:]
+            self.localname = text[endidx + 1:]
 
-if etree and QNameDecode == None: # pragma no cover
+
+if etree and QNameDecode is None:  # pragma no cover
     class QNameDecode(QNameSeparator):
         def __init__(self, node):
             QNameSeparator.__init__(self, node.tag)
@@ -98,8 +104,10 @@ __author__ = 'Martin Blech'
 __version__ = '0.9.2'
 __license__ = 'MIT'
 
+
 class NoArg():
     pass
+
 
 class OrderedDict(_OrderedDict):
     def __repr__(self, _repr_running={}):
@@ -121,13 +129,15 @@ class OrderedDict(_OrderedDict):
             self.__class__.__name__ = temp
         return rv
 
+
 class _XMLNodeMetaClass(type):
     def __new__(cls, name, bases, dict):
         dict["xml_attrs"] = OrderedDict()
         dict["__parent__"] = bases[-1]
         return type.__new__(cls, name, bases, dict)
+
     def __call__(self, *args, **kwargs):
-        xml_attrs=kwargs.pop("xml_attrs", OrderedDict())
+        xml_attrs = kwargs.pop("xml_attrs", OrderedDict())
         obj = type.__call__(self, *args, **kwargs)
         obj.xml_attrs = xml_attrs
         return obj
@@ -147,6 +157,7 @@ XMLNodeMetaClass = _XMLNodeMetaClass(str("XMLNodeMetaClass"),
                                      (object,), _temp_class_dict)
 
 del _temp_class_dict
+
 
 class XMLNodeBase(XMLNodeMetaClass):
     def has_xml_attrs(self):
@@ -172,20 +183,23 @@ class XMLNodeBase(XMLNodeMetaClass):
         del self.xml_attrs[attr]
 
     def __repr__(self):
-        return "%s(xml_attrs=%r, value=%s)" % (getattr(self, "__const_class_name__", self.__class__.__name__), self.xml_attrs, self.__parent__.__repr__(self))
+        return "%s(xml_attrs=%r, value=%s)" % (
+        getattr(self, "__const_class_name__", self.__class__.__name__), self.xml_attrs, self.__parent__.__repr__(self))
 
 
 class XMLCDATANode(XMLNodeBase, _unicode):
     def strip(self, arg=None):
         newtext = _unicode.strip(self, arg)
         return XMLCDATANode(newtext, xml_attrs=self.xml_attrs)
+
     def prettyprint(self, *args, **kwargs):
         currdepth = kwargs.pop("currdepth", 0)
         newobj = self.__parent__(self)
-        if currdepth==0:
+        if currdepth == 0:
             pprint(newobj, *args, **kwargs)
         else:
             return newobj
+
 
 class XMLListNode(XMLNodeBase, list):
     def prettyprint(self, *args, **kwargs):
@@ -197,18 +211,20 @@ class XMLListNode(XMLNodeBase, list):
         newlist = list()
         for v in self:
             if hasattr(v, "prettyprint"):
-                newlist.append(v.prettyprint(*args, currdepth=currdepth+1, **kwargs))
+                newlist.append(v.prettyprint(*args, currdepth=currdepth + 1, **kwargs))
             else:
                 newlist.append(v)
-        if currdepth==0:
+        if currdepth == 0:
             pprint(newlist, *args, **kwargs)
         else:
             return newlist
+
 
 class XMLDictNode(XMLNodeBase, OrderedDict):
     def __init__(self, *args, **kwargs):
         self.__const_class_name__ = self.__class__.__name__
         OrderedDict.__init__(self, *args, **kwargs)
+
     def prettyprint(self, *args, **kwargs):
         currdepth = kwargs.pop("currdepth", 0)
         depth = kwargs.get("depth", None)
@@ -216,18 +232,20 @@ class XMLDictNode(XMLNodeBase, OrderedDict):
             return {}
         # Construct a new item, recursively.
         newdict = dict()
-        for (k,v) in self.items():
+        for (k, v) in self.items():
             if hasattr(v, "prettyprint"):
-                newdict[k] = v.prettyprint(*args, currdepth=currdepth+1, **kwargs)
+                newdict[k] = v.prettyprint(*args, currdepth=currdepth + 1, **kwargs)
             else:
                 newdict[k] = v
-        if currdepth==0:
+        if currdepth == 0:
             pprint(newdict, *args, **kwargs)
         else:
             return newdict
 
+
 class ParsingInterrupted(Exception):
     pass
+
 
 class _DictSAXHandler(object):
     def __init__(self,
@@ -287,9 +305,9 @@ class _DictSAXHandler(object):
             self.dict_constructor = dict_constructor
         if isinstance(attr_prefix, NoArg):
             if self.new_style:
-                self.attr_prefix=""
+                self.attr_prefix = ""
             else:
-                self.attr_prefix="@"
+                self.attr_prefix = "@"
         else:
             self.attr_prefix = attr_prefix
 
@@ -299,7 +317,7 @@ class _DictSAXHandler(object):
         i = full_name.rfind(self.namespace_separator)
         if i == -1:
             return full_name
-        namespace, name = full_name[:i], full_name[i+1:]
+        namespace, name = full_name[:i], full_name[i + 1:]
         if self.strip_namespace:
             return name
         short_namespace = self.namespaces.get(namespace, namespace)
@@ -337,7 +355,7 @@ class _DictSAXHandler(object):
                 self.stack.append((self.item, self.data))
             if self.xml_attribs:
                 attrs = self.dict_constructor(
-                    (self.attr_prefix+self._build_name(key), value)
+                    (self.attr_prefix + self._build_name(key), value)
                     for (key, value) in attrs.items())
             else:
                 attrs = None
@@ -423,8 +441,11 @@ class _DictSAXHandler(object):
                 value = item[key]
                 if isinstance(value, list):
                     value.append(data)
-                elif isinstance(value, dict) and (not self.index_keys_compress) and getattr(value, self.delete_key, False):
-                    raise ValueError("Mixture of data types: some have index keys and some do not, while processing \"%s\" key" % key)
+                elif isinstance(value, dict) \
+                        and (not self.index_keys_compress) \
+                        and getattr(value, self.delete_key, False):
+                    raise ValueError("Mixture of data types: some have index keys and some do not,"
+                                     "while processing \"%s\" key" % key)
                 else:
                     item[key] = self.list_constructor((value, data))
             except KeyError:
@@ -441,25 +462,27 @@ class _DictSAXHandler(object):
                     else:
                         value[result[0]] = result[1]
                 else:
-                    raise ValueError("Mixture of data types: some have index keys and some do not, while processing \"%s\" key" % key)
+                    raise ValueError("Mixture of data types: some have index keys and some do not,"
+                                     "while processing \"%s\" key" % key)
             except KeyError:
                 item[key] = self.dict_constructor()
                 item[key][result[0]] = result[1]
                 setattr(item[key], self.delete_key, True)
         return item
 
+
 class Parser(object):
     def __init__(self, **kwargs):
         # Save the arguments for later.
-        self.kwargs=dict(kwargs)
+        self.kwargs = dict(kwargs)
 
         # For now, pop off the arguments that we don't want to pass to
         # the handler class.
-        encoding=kwargs.pop('encoding', None)
-        my_expat=kwargs.pop('expat', expat)
-        process_namespaces=kwargs.pop('process_namespaces', False)
-        namespace_separator=kwargs.pop('namespace_separator', ':')
-        generator=kwargs.pop('generator', False)
+        encoding = kwargs.pop('encoding', None)
+        my_expat = kwargs.pop('expat', expat)
+        process_namespaces = kwargs.pop('process_namespaces', False)
+        namespace_separator = kwargs.pop('namespace_separator', ':')
+        generator = kwargs.pop('generator', False)
 
         # Try the arguments to catch argument errors now. We will toss
         # out the created handler and parser, anyway.
@@ -475,6 +498,7 @@ class Parser(object):
         )
         del handler
         del parser
+
     def __call__(self, xml_input, **kwargs):
         # NOTE: For now, this just calls the external parse()
         # method. I would prefer to rewrite this so the external
@@ -486,23 +510,27 @@ class Parser(object):
         newkwargs.update(kwargs)
         return parse(xml_input, **newkwargs)
 
+
 class _GeneratorCallback(object):
     def __init__(self, item_callback=None):
         if item_callback == None:
             item_callback = lambda *args: True
         self.item_callback = item_callback
         self.stack = []
+
     def get_items(self):
         done = False
         while not done:
             try:
                 yield self.stack.pop(0)
             except IndexError:
-                done=True
+                done = True
+
     def add_item(self, stack, value):
         rv = self.item_callback(stack, value)
         self.stack.append((deepcopy(stack), value))
         return rv
+
 
 def _parse_generator(xml_input, parser, cb):
     if isinstance(xml_input, str) or isinstance(xml_input, _unicode):
@@ -512,20 +540,21 @@ def _parse_generator(xml_input, parser, cb):
     else:
         ioObj = xml_input
 
-    atEof=False
-    interrupt=False
+    atEof = False
+    interrupt = False
     while not atEof:
         buf = ioObj.read(parsingIncrement)
         if len(buf) == 0:
-            atEof=True
+            atEof = True
         try:
             parser.Parse(buf, atEof)
         except ParsingInterrupted:
-            interrupt=True
+            interrupt = True
         for rv in cb.get_items():
             yield rv
         if interrupt:
             raise ParsingInterrupted()
+
 
 def parse(xml_input, encoding=None, expat=expat,
           process_namespaces=False, namespace_separator=':',
@@ -787,18 +816,22 @@ def parse(xml_input, encoding=None, expat=expat,
     else:
         return handler.item
 
+
 if etree:
     class NamespaceError(ValueError):
         def __init__(self, namespace):
             self.namespace = namespace
+
         def __str__(self):
             return "Namespace \"%s\" not found in namespace store." % self.namespace
+
         def __repr__(self):
             return "%s(namespace=%s)" % (self.__class__.__name__,
                                          self.namespace)
 
+
     def parse_attrib(in_dict, out_dict, ns_dict, namespace_separator):
-        for (k,v) in list(in_dict.items()):
+        for (k, v) in list(in_dict.items()):
             parsed_attr = QNameSeparator(k)
             if not parsed_attr.namespace:
                 out_dict[k] = v
@@ -814,6 +847,7 @@ if etree:
                 )
                 out_dict[new_k] = v
                 del in_dict[k]
+
 
     def parse_lxml_node(node, handler, process_namespaces,
                         strip_namespace, namespace_separator, cb,
@@ -859,7 +893,7 @@ if etree:
                 # them out here when strip_namespace is true. It seems
                 # best to have the logic in a single place.
                 attrib = dict()
-                for (k,v) in node.attrib.items():
+                for (k, v) in node.attrib.items():
                     parsed_attr = QNameSeparator(k)
                     if not parsed_attr.namespace:
                         attrib[k] = v
@@ -908,7 +942,7 @@ if etree:
                     if parsed_tag.namespace not in ns_resolve_dict:
                         newns = namespace_dict['nexttag']
                         namespace_dict[parsed_tag.namespace] = newns
-                        namespace_dict['nexttag'] = _unicode("ns%d" % (int(newns[2:]) + 1, ))
+                        namespace_dict['nexttag'] = _unicode("ns%d" % (int(newns[2:]) + 1,))
                         attrib[_unicode("xmlns:" + newns)] = parsed_tag.namespace
                     tag = namespace_separator.join((ns_resolve_dict[parsed_tag.namespace],
                                                     parsed_tag.localname))
@@ -931,7 +965,7 @@ if etree:
                         newns = namespace_dict['nexttag']
                         namespace_dict[e.namespace] = newns
                         namespace_dict['nexttag'] = _unicode(
-                            "ns%d" % (int(newns[2:]) + 1, )
+                            "ns%d" % (int(newns[2:]) + 1,)
                         )
                         attrib[_unicode("xmlns:" + newns)] = e.namespace
 
@@ -941,7 +975,7 @@ if etree:
                         parent_nsmap = {}
                     else:
                         parent_nsmap = node.getparent().nsmap
-                    for (k,v) in node.nsmap.items():
+                    for (k, v) in node.nsmap.items():
                         if parent_nsmap.get(k, '@@NOMATCH@@') != v:
                             if k:
                                 attrib[_unicode("xmlns:" + k)] = v
@@ -952,7 +986,7 @@ if etree:
             if node.text and len(node.text) > 0:
                 handler.characters(node.text)
             for child in node:
-                interrupt=False
+                interrupt = False
                 child_iterator = parse_lxml_node(
                     child, handler, process_namespaces, strip_namespace,
                     namespace_separator, cb, namespace_dict
@@ -961,7 +995,7 @@ if etree:
                     for rv in child_iterator:
                         yield rv
                 except ParsingInterrupted:
-                    interrupt=True
+                    interrupt = True
                 for rv in cb.get_items():
                     yield rv
                 if interrupt:
@@ -969,6 +1003,7 @@ if etree:
             handler.endElement(tag)
         if (not rootElement) and node.tail and len(node.tail) > 0:
             handler.characters(node.tail)
+
 
     class LXMLParser(object):
         def __init__(self, process_namespaces=False,
@@ -979,10 +1014,11 @@ if etree:
             self.allow_extra_args = allow_extra_args
             self.generator = generator
             self.kwargs = kwargs
-            self.strip_namespace = kwargs.get('strip_namespace',False)
+            self.strip_namespace = kwargs.get('strip_namespace', False)
             handler = _DictSAXHandler(namespace_separator=self.namespace_separator,
                                       **kwargs)
             del handler
+
         def __call__(self, lxml_root, *args, **kwargs):
             if len(args) > 0 and not self.allow_extra_args:
                 raise TypeError("%s callable takes 1 argument (%d given)" %
@@ -1023,9 +1059,11 @@ if etree:
                     return [([], handler.item)]
                 else:
                     return handler.item
-                            
+
+
     def parse_lxml(lxml_root, *args, **kwargs):
         return LXMLParser(*args, **kwargs)(lxml_root)
+
 
 def _emit(key, value, content_handler,
           attr_prefix='@',
@@ -1046,11 +1084,11 @@ def _emit(key, value, content_handler,
             key = value.pop(tag_key)
         elif hasattr(value, tag_key):
             key = getattr(value, tag_key)
-        delete_level=False
+        delete_level = False
         if delete_key in value:
-            delete_level=value.pop(delete_key)
+            delete_level = value.pop(delete_key)
         if delete_level or getattr(value, delete_key, False):
-            newvalue=[]
+            newvalue = []
             for sub_hierachy in value.keys():
                 if isinstance(value[sub_hierachy], list):
                     newvalue.extend(value[sub_hierachy])
@@ -1093,7 +1131,7 @@ def _emit(key, value, content_handler,
             content_handler.ignorableWhitespace(newl)
         for child_key, child_value in children:
             _emit(child_key, child_value, content_handler,
-                  attr_prefix, cdata_key, depth+1, preprocessor,
+                  attr_prefix, cdata_key, depth + 1, preprocessor,
                   pretty, newl, indent)
         if cdata is not None:
             content_handler.characters(cdata)
@@ -1142,6 +1180,7 @@ def unparse(input_dict, output=None, encoding='utf-8', full_document=True,
             pass
         return value
 
+
 if __name__ == '__main__':  # pragma: no cover
     import sys
     import marshal
@@ -1149,9 +1188,11 @@ if __name__ == '__main__':  # pragma: no cover
     (item_depth,) = sys.argv[1:]
     item_depth = int(item_depth)
 
+
     def handle_item(path, item):
         marshal.dump((path, item), sys.stdout)
         return True
+
 
     try:
         root = parse(sys.stdin,

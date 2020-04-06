@@ -1,4 +1,3 @@
-# coding: utf-8
 import os
 import datetime
 import logging
@@ -72,7 +71,8 @@ def test_get_the_book(litres):
     response = litres.get_the_book('37828892-1a76-11e5-ad6a-002590591dd6')
 
     assert response.status_code == 200
-    assert response.headers['Content-Disposition'] == 'attachment; filename="Suhov_E._Rassledovaniya._Brosok_Na_Vyistrel.fb2.zip"'  # noqa
+    content_disposition = 'attachment; filename="Suhov_E._Rassledovaniya._Brosok_Na_Vyistrel.fb2.zip"'
+    assert response.headers['Content-Disposition'] == content_disposition
     assert response.headers['Content-Length'] == '452166'
 
 
