@@ -3,7 +3,7 @@ Litres API
 
 python-обёртка вокруг API ЛитРес на базе requests и xmltodict
 
-.. image:: https://img.shields.io/badge/python-2.7,%203.4,%203.5-blue.svg
+.. image:: https://img.shields.io/badge/python-3.5,%203.6,%203.7-blue.svg
     :target: https://pypi.python.org/pypi/litresapi/
 .. image:: https://travis-ci.org/MyBook/litresapi.svg?branch=master
     :target: https://travis-ci.org/MyBook/litresapi
@@ -184,7 +184,7 @@ python-обёртка вокруг API ЛитРес на базе requests и xm
 
 1. Поднимаем версию пакета::
 
-    __version__ = '1.0.2'
+    __version__ = '1.1.1'
 
 2. Собираем пакет::
 
@@ -192,4 +192,4 @@ python-обёртка вокруг API ЛитРес на базе requests и xm
 
 3. Загружаем собранный пакет в PyPi::
 
-    twine upload dist/litresapi-1.0.1.tar.gz
+    twine upload dist/litresapi-1.1.1.tar.gz

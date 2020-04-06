@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+
+1.1.0 (2020-04-06)
+------------------
+* Drop Python <3.5 support
+
 1.0.0 (2017-02-25)
 ------------------
 * Enable requests hooks for get_fresh_book

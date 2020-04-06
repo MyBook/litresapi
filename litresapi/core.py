@@ -1,32 +1,32 @@
-# coding: utf-8
-import hashlib
-import logging
-import time
 import datetime
-import re
+import hashlib
 import io
+import logging
+import re
+import time
 
 import lxml
-from requests.compat import urljoin
 import requests
 from requests.adapters import HTTPAdapter, Retry
+from requests.compat import urljoin
 
-from . import xmltodict
 from litresapi.exceptions import LitresAPIException
-
+from . import xmltodict
 
 logger = logging.getLogger(__name__)
 
 
 class LitresApi(object):
-    """Litres API wrapper
+    """
+    Litres API wrapper
 
-       Docs: http://www.litres.ru/static/get_fresh_book.zip
+    Docs: https://docs.litres.ru/x/goh8
     """
     force_list = (
         'author',
         'genre',
-        'sequence'
+        'sequence',
+        'copyright',
     )
 
     def __init__(self, partner_id=None, secret_key=None, xml=False):

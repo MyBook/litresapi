@@ -1,5 +1,4 @@
-# coding: utf-8
 # flake8: noqa
-__version__ = '1.0.2'
+__version__ = '1.1.0'
 
 from .core import LitresApi
