@@ -17,9 +17,10 @@ logger = logging.getLogger(__name__)
 
 
 class LitresApi(object):
-    """Litres API wrapper
+    """
+    Litres API wrapper
 
-       Docs: http://www.litres.ru/static/get_fresh_book.zip
+    Docs: https://docs.litres.ru/x/goh8
     """
     force_list = (
         'author',

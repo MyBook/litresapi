@@ -36,11 +36,11 @@ def test_get_freshbook(litres):
     assert book1['@file_id'] == '13373969'
     assert book1['@cover'] == 'jpg'
     assert book1['@external_id'] == '37828892-1a76-11e5-ad6a-002590591dd6'
-    assert book1['title-info']['book-title'] == u'Бросок на выстрел'
+    assert book1['title-info']['book-title'] == 'Бросок на выстрел'
 
     book2 = book_data[1]
     assert book2['@id'] == '10316290'
-    assert book2['title-info']['book-title'] == u'Конек-Горбунок'
+    assert book2['title-info']['book-title'] == 'Конек-Горбунок'
 
 
 @vcr.use_cassette('tests/cassettes/freshbook.yaml', filter_query_parameters=['sha', 'place'])
@@ -50,7 +50,7 @@ def test_get_freshbook_xml(litres_xml):
                                                     end_date=datetime.datetime(2015, 7, 19, 12, 10))
     book1 = next(book_data_generator)
     assert book1.attrib['external_id'] == '37828892-1a76-11e5-ad6a-002590591dd6'
-    assert book1.xpath('title-info/book-title')[0].text == u'Бросок на выстрел'
+    assert book1.xpath('title-info/book-title')[0].text == 'Бросок на выстрел'
 
     book2 = next(book_data_generator)
     assert book2.attrib['id'] == '10316290'
@@ -60,7 +60,7 @@ def test_get_freshbook_xml(litres_xml):
 
 
 def scrub_body(response):
-    response['body']['string'] = u''.encode('utf-8')
+    response['body']['string'] = ''.encode('utf-8')
     return response
 
 my_vcr = vcr.VCR(before_record_response=scrub_body)
@@ -107,7 +107,7 @@ def test_get_genres(litres):
     genre = genres_list[0]
 
     assert genre['@id'] == '5003'
-    assert genre['@title'] == u'Бизнес-книги'
+    assert genre['@title'] == 'Бизнес-книги'
     assert genre['@type'] == 'root'
     assert len(genre['genre']) == 25
 
