@@ -30,7 +30,7 @@ interactions:
       Connection: [keep-alive]
       User-Agent: [python-requests/2.7.0 CPython/3.4.3 Darwin/17.7.0]
     method: GET
-    uri: https://MBA.litres.ru/pub/c/cover_max1500/13299029.jpg
+    uri: https://MBA.litres.ru/pub/c/cover/13299029.jpg
   response:
     body: {string: ''}
     headers:
@@ -49,7 +49,7 @@ interactions:
       Connection: [keep-alive]
       User-Agent: [python-requests/2.7.0 CPython/3.4.3 Darwin/17.7.0]
     method: GET
-    uri: https://partnersdnld.litres.ru/pub/c/cover_max1500/32544407.jpg
+    uri: https://partnersdnld.litres.ru/pub/c/cover/32544407.jpg
   response:
     body: {string: ''}
     headers:
