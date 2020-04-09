@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+1.1.1 (2020-04-06)
+------------------
+* Fix request params for /get_the_book/ and cover download requests
 
 1.1.0 (2020-04-06)
 ------------------

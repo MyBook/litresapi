@@ -66,7 +66,7 @@ def scrub_body(response):
 my_vcr = vcr.VCR(before_record_response=scrub_body)
 
 
-@my_vcr.use_cassette('tests/cassettes/thebook.yaml', filter_query_parameters=['md5', 'place'])
+@my_vcr.use_cassette('tests/cassettes/thebook.yaml', filter_query_parameters=['sha', 'place'])
 def test_get_the_book(litres):
     response = litres.get_the_book('37828892-1a76-11e5-ad6a-002590591dd6')
 

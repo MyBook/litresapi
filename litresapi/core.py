@@ -130,23 +130,15 @@ class LitresApi(object):
     def _get_the_book_hash(self, external_id):
         signature = ':'.join([external_id, self.secret_key])
         return {
-            'md5': hashlib.md5(signature.encode('utf-8')).hexdigest(),
+            'sha': hashlib.sha256(signature.encode('utf-8')).hexdigest(),
         }
 
     def get_the_book(self, external_id, file_type=None, file_id=None, **kwargs):
-        """
-
-        :param external_id:
-        :param file_type:
-        :param file_id:
-        :param kwargs:
-        :return:
-        """
         params = {
             'book': external_id.lower(),
             'type': file_type,
             'file': file_id,
-            'place': self.partner_id
+            'place': self.partner_id,
         }
         params = {k: v for k, v in params.items() if v is not None}
         params.update(self._get_the_book_hash(external_id.lower()))
@@ -156,11 +148,6 @@ class LitresApi(object):
         return response
 
     def save_the_book(self, *args, **kwargs):
-        """ Save single bookfile
-        :param args:
-        :param kwargs:
-        :return:
-        """
         kwargs['stream'] = True
         response = self.get_the_book(*args, **kwargs)
         filename = re.findall('filename="(\S+)"', response.headers['Content-Disposition'])[0]
@@ -179,7 +166,7 @@ class LitresApi(object):
             if not file_ext:
                 return None
         # we are taking max size cover
-        cover_dir = '/pub/c/cover_max1500/{}.jpg'.format(book_id)
+        cover_dir = '/pub/c/cover/{}.jpg'.format(book_id)
         response = self._request(cover_dir, domain_prefix='partnersdnld', **kwargs)
         self.check_response(response)
 
