@@ -166,7 +166,7 @@ class LitresApi(object):
             if not file_ext:
                 return None
         # we are taking max size cover
-        cover_dir = '/pub/c/cover/{}.jpg'.format(book_id)
+        cover_dir = '/pub/c/cover/{book_id}.{file_ext}'.format(book_id=book_id, file_ext=file_ext)
         response = self._request(cover_dir, domain_prefix='partnersdnld', **kwargs)
         self.check_response(response)
 
