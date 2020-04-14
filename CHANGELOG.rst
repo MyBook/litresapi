@@ -1,7 +1,11 @@
 Changelog
 ---------
 
-1.1.1 (2020-04-06)
+1.1.2 (2020-04-14)
+------------------
+* Allow to download book covers with formats other than jpg
+
+1.1.1 (2020-04-10)
 ------------------
 * Fix request params for /get_the_book/ and cover download requests
 
