@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+1.1.3 (2020-04-23)
+------------------
+* Allow to download books with different partner_id
+
+
 1.1.2 (2020-04-14)
 ------------------
 * Allow to download book covers with formats other than jpg
