@@ -135,8 +135,8 @@ class LitresApi(object):
 
     def get_the_book(self, external_id, file_type=None,
                      file_id=None, **kwargs):
-        partner_id = kwargs.get('partner_id') or self.partner_id
-        secret_key = kwargs.get('secret_key') or self.secret_key
+        partner_id = kwargs.pop('partner_id', None) or self.partner_id
+        secret_key = kwargs.pop('secret_key', None) or self.secret_key
         params = {
             'book': external_id.lower(),
             'type': file_type,
