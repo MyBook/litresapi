@@ -133,16 +133,18 @@ class LitresApi(object):
             'sha': hashlib.sha256(signature.encode('utf-8')).hexdigest(),
         }
 
-    def get_the_book(self, download_partner_id, download_secret_key, external_id, file_type=None, 
+    def get_the_book(self, external_id, file_type=None,
                      file_id=None, **kwargs):
+        partner_id = kwargs.get('partner_id') or self.partner_id
+        secret_key = kwargs.get('secret_key') or self.secret_key
         params = {
             'book': external_id.lower(),
             'type': file_type,
             'file': file_id,
-            'place': download_partner_id,
+            'place': partner_id,
         }
         params = {k: v for k, v in params.items() if v is not None}
-        params.update(self._get_the_book_hash(external_id.lower(), download_secret_key))
+        params.update(self._get_the_book_hash(external_id.lower(), secret_key))
         response = self._request('get_the_book/', params=params, **kwargs)
         self.check_response(response)
 
