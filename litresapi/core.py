@@ -127,21 +127,24 @@ class LitresApi(object):
                 book['@tag'] = tag_name
                 yield book
 
-    def _get_the_book_hash(self, external_id):
-        signature = ':'.join([external_id, self.secret_key])
+    def _get_the_book_hash(self, external_id, download_secret_key):
+        signature = ':'.join([external_id, download_secret_key])
         return {
             'sha': hashlib.sha256(signature.encode('utf-8')).hexdigest(),
         }
 
-    def get_the_book(self, external_id, file_type=None, file_id=None, **kwargs):
+    def get_the_book(self, external_id, file_type=None,
+                     file_id=None, **kwargs):
+        partner_id = kwargs.pop('partner_id', None) or self.partner_id
+        secret_key = kwargs.pop('secret_key', None) or self.secret_key
         params = {
             'book': external_id.lower(),
             'type': file_type,
             'file': file_id,
-            'place': self.partner_id,
+            'place': partner_id,
         }
         params = {k: v for k, v in params.items() if v is not None}
-        params.update(self._get_the_book_hash(external_id.lower()))
+        params.update(self._get_the_book_hash(external_id.lower(), secret_key))
         response = self._request('get_the_book/', params=params, **kwargs)
         self.check_response(response)
 

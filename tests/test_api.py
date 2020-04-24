@@ -74,6 +74,18 @@ def test_get_the_book(litres):
     content_disposition = 'attachment; filename="Suhov_E._Rassledovaniya._Brosok_Na_Vyistrel.fb2.zip"'
     assert response.headers['Content-Disposition'] == content_disposition
     assert response.headers['Content-Length'] == '452166'
+    # empty place if not partner_id
+    assert 'place=&' in response.request.url
+
+
+@my_vcr.use_cassette('tests/cassettes/thebook.yaml', filter_query_parameters=['sha', 'place'])
+def test_get_the_book_with_custom_partner_id(litres):
+    response = litres.get_the_book('37828892-1a76-11e5-ad6a-002590591dd6', partner_id='MYB4', secret_key='-secret-')
+    assert 'place=MYB4' in response.request.url
+    assert response.status_code == 200
+    content_disposition = 'attachment; filename="Suhov_E._Rassledovaniya._Brosok_Na_Vyistrel.fb2.zip"'
+    assert response.headers['Content-Disposition'] == content_disposition
+    assert response.headers['Content-Length'] == '452166'
 
 
 @my_vcr.use_cassette('tests/cassettes/cover.yaml')
