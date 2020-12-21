@@ -171,7 +171,7 @@ python-обёртка вокруг API ЛитРес на базе requests и xm
 
 ::
 
-  tox -e py37
+  tox -e py38
 
 
 Публикация релиза в PyPi
