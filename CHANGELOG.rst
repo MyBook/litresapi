@@ -1,10 +1,14 @@
 Changelog
 ---------
 
+1.2.0 (2020-12-21)
+------------------
+* Add new content types for podcast and podcast episode
+* Drop Python <3.6 support
+
 1.1.3 (2020-04-23)
 ------------------
 * Allow to download books with different partner_id
-
 
 1.1.2 (2020-04-14)
 ------------------

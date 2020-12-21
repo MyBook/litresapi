@@ -77,6 +77,8 @@ class LitresApi(object):
             'AUDIO': '1',
             'PDF': '4',
             'ADOBEDRM': '11',
+            'PODCAST': '22',
+            'PODCAST_EPISODE': '23',
             'ALL': 'all'
         }
         if uuid:
