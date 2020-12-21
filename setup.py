@@ -48,7 +48,7 @@ requirements = [
 ]
 
 test_requirements = [
-    'pytest>=4.6.3',
+    'pytest>=4.6.3,<6.2.0',
     'pytest-cov>=2.7.1',
     'freezegun>=0.3.12',
     'vcrpy>=2.0.1'
@@ -78,6 +78,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     test_suite='tests',
     tests_require=test_requirements,
