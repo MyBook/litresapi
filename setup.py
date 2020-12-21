@@ -48,7 +48,7 @@ requirements = [
 ]
 
 test_requirements = [
-    'pytest>=4.6.3,<6.2.0',
+    'pytest>=4.6.3',
     'pytest-cov>=2.7.1',
     'freezegun>=0.3.12',
     'vcrpy>=2.0.1'
@@ -75,7 +75,6 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
