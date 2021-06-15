@@ -1,6 +1,10 @@
 Changelog
 ---------
 
+1.2.1 (2021-06-15)
+------------------
+* Add exception support for celery
+
 1.2.0 (2020-12-21)
 ------------------
 * Add new content types for podcast and podcast episode
