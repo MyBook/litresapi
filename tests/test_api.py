@@ -7,6 +7,7 @@ import pytest
 import vcr
 
 from litresapi import LitresApi
+from litresapi.exceptions import LitresAPIException
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -40,6 +41,14 @@ def test_get_freshbook(litres):
     book2 = book_data[1]
     assert book2['@id'] == '10316290'
     assert book2['title-info']['book-title'] == 'Конек-Горбунок'
+
+
+@vcr.use_cassette('tests/cassettes/request_error.yaml', filter_query_parameters=['sha', 'place'])
+@freezegun.freeze_time('2015-08-01 07:51:00 UTC')
+def test_exception_raises(litres):
+    with pytest.raises(LitresAPIException, match='failed to open'):
+        litres.get_fresh_book(start_date=datetime.datetime(2015, 7, 19, 12, 5),
+                              end_date=datetime.datetime(2015, 7, 19, 12, 10))
 
 
 @vcr.use_cassette('tests/cassettes/freshbook.yaml', filter_query_parameters=['sha', 'place'])

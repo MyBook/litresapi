@@ -1,0 +1,23 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.7.0 CPython/2.7.9 Darwin/14.4.0]
+    method: GET
+    uri: https://sp.litres.ru/get_fresh_book/?checkpoint=2015-07-19+12%3A05%3A00&endpoint=2015-07-19+12%3A10%3A00&timestamp=1438415460&type=0
+  response:
+    body:
+      string: ''
+    headers:
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-length: ['3874']
+      content-type: [text/xml; charset=utf-8;]
+      date: ['Sat, 01 Aug 2015 07:51:28 GMT']
+      server: [nginx/1.7.9]
+      vary: [Accept-Encoding]
+    status: {code: 400, message: OK}
+version: 1
