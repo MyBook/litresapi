@@ -5,4 +5,4 @@ class LitresAPIException(Exception):
         super().__init__(message, response)
 
     def __str__(self):
-        return '%s -> %s' % (self.message, self.response.text)
+        return '%s -> %s' % (self.message, self.response.text if self.response else None)

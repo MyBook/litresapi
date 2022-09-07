@@ -1,6 +1,10 @@
 Changelog
 ---------
 
+1.2.2 (2022-09-07)
+------------------
+* Ensure that response is not None while raising LitresAPIException
+
 1.2.1 (2021-06-15)
 ------------------
 * Add exception support for celery
